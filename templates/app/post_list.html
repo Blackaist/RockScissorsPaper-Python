@@ -1,0 +1,26 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Doge go fast</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap-theme.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<form action="/" method="post">
+			{% csrf_token %}
+			<input type="image" src="{% static 'paper.jpg' %}" name="btnPaper"/>
+			<input type="image" src="{% static 'scissors.jpg' %}" name="btnScissors"/>
+			<input type="image" src="{% static 'rock.jpg' %}" name="btnRock"/>
+		</form>
+
+		<p>Здесь будет ваш выбор и выбор ИИ</p>
+
+		<img id="humanchoise" src= {% static "" %}{{ human_choise }}></img> vs
+		<img id="enemychoise" src="{% static 'rock.jpg' %}"></img>
+		<p>график</p>
+	</body>
+</html>
