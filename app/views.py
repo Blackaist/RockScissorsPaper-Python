@@ -10,7 +10,8 @@ context = {
     'result_text': '',
     'score_text': 'Счет: ',
     'wins': 0,
-    'loses': 0
+    'loses': 0,
+    'draws': 0
 }
 win_text = "Вы победили!"
 lose_text = "Вы проиграли!"
@@ -34,6 +35,7 @@ def imgChangeAIChoise(request, str):
 def compareTwoChooses():
     if context['human_choice'] == context['AI_choice']:
         context['result_text'] = draw_text
+        context['draws'] += 1
     else:
         if context['human_choice'] == imgs[0] and context['AI_choice'] == imgs[2]\
                 or context['human_choice'] == imgs[1] and context['AI_choice'] == imgs[0]\
