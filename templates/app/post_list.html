@@ -19,8 +19,11 @@
 
 		<p>Здесь будет ваш выбор и выбор ИИ</p>
 
-		<img id="humanchoise" src= {% static "" %}{{ human_choise }}></img> vs
-		<img id="enemychoise" src="{% static 'rock.jpg' %}"></img>
+		<img id="humanchoise" src={% static "" %}{{ human_choice }}></img> vs
+		<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
+		{{ result_text }}
+		<br>
+		{{ score_text }}
 		<p>график</p>
 	</body>
 </html>
