@@ -4,9 +4,17 @@ from django.db import models
 from django.forms import forms
 
 
-class CustomImageWidget(forms.ClearableFileInput):
-    input_type = 'image'
+class PlayerUI(models.Model):
+    id = models.TextField(primary_key=True, null=False)
 
-class PicsUploadForm(forms.ModelForm):
-    image = forms.ImageField(widget=CustomImageWidget())
-    image.widget.attrs["value"] ='Upload'
+    human_choice = models.TextField(default='scissors_r.png', null=False)
+    ai_choice = models.TextField(default='scissors_r.png', null=False)
+    result_text = models.TextField(default='')
+    score_text = models.TextField(default='Счет: ')
+
+    human_story_choices = models.TextField(default='')
+    ai_story_choices = models.TextField(default='')
+
+    wins = models.IntegerField(default=0, null=False)
+    loses = models.IntegerField(default=0, null=False)
+    draws = models.IntegerField(default=0, null=False)
