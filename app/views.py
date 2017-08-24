@@ -2,11 +2,11 @@ import random
 
 from django.shortcuts import render
 
-imgs = ['paper.jpg', 'scissors.jpg', 'rock.jpg']
+imgs = ['paper_r.png', 'scissors_r.png', 'rock_r.png']
 
 context = {
-    'human_choice': 'scissors.jpg',
-    'AI_choice': 'scissors.jpg',
+    'human_choice': 'scissors_r.png',
+    'AI_choice': 'scissors_r.png',
     'result_text': '',
     'score_text': 'Счет: ',
     'wins': 0,

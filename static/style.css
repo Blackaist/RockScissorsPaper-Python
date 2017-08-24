@@ -1,0 +1,51 @@
+body {
+  box-sizing: border-box;
+  background-color: white;
+  font-family: 'Play', sans-serif;
+  font-size: 20px;
+  margin: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+#header,
+#choosing,
+#results {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px 150px;
+}
+
+p, h1 {
+  text-align: center;
+}
+h1 {
+  font-size: 1.2em;
+}
+span {
+  border: 4px double black;
+  background: lightyellow;
+}
+
+.photo {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+div.container {
+  position: relative;
+}
+div.text_img {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+}
+/*img:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}*/

@@ -5,25 +5,50 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Doge go fast</title>
+		<!--
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap-theme.min.css">
+		-->
+		<link rel="stylesheet" href="static/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Play:400,700&amp;subset=cyrillic" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<form action="/" method="post">
-			{% csrf_token %}
-			<input type="image" src="{% static 'paper.jpg' %}" name="btnPaper"/>
-			<input type="image" src="{% static 'scissors.jpg' %}" name="btnScissors"/>
-			<input type="image" src="{% static 'rock.jpg' %}" name="btnRock"/>
-		</form>
+		<div id="header">
+			<div class="container">
+				<img class="photo" src="static/photoA.png" alt="Gamer's photo">
+				<div class="text_img">Человечек</div>
+			</div>
+			<img src="static/vs.png" alt="VS.">
+			<div class="container">
+				<img class="photo" src="static/photoB.png" alt="AI's photo">
+				<div class="text_img">Великолепный ИИ</div>
+			</div>
+		</div>
 
-		<p>Здесь будет ваш выбор и выбор ИИ</p>
+		<h1>Ваш выбор:</h1>
 
-		<img id="humanchoise" src={% static "" %}{{ human_choice }}></img> vs
-		<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
-		{{ result_text }}
-		<br>
-		{{ score_text }}
-		<p>график</p>
+		<div id="choosing">
+			<form action="/" method="post">
+				{% csrf_token %}
+				<input type="image" src="{% static 'paper_r.png' %}" name="btnPaper"/>
+				<input type="image" src="{% static 'scissors_r.png' %}" name="btnScissors"/>
+				<input type="image" src="{% static 'rock_r.png' %}" name="btnRock"/>
+			</form>
+		</div>
+
+		<h1>Результат игры:</h1>
+
+		<div id="results">
+			<p>Вы выбрали - </p>
+			<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
+			<p>ИИ выбрал - </p>
+			<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
+			<p><b>{{ result_text }}</b>
+			<br>
+			<b>{{ score_text }}</b></P>
+		</div>
+
+		<h1>График</h1>
 	</body>
 </html>
