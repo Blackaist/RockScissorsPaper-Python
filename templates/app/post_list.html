@@ -15,15 +15,37 @@
 	</head>
 	<body>
 		<div id="header">
+
 			<div class="container">
-				<img class="photo" src="static/photoA.png" alt="Gamer's photo">
-				<div class="text_img">Человечек</div>
+				<img class="photo" src="static/Anon_225.png" alt="Gamer's photo">
+				<div class="text_img">Игрок (Вы)</div>
 			</div>
-			<img src="static/vs.png" alt="VS.">
+
 			<div class="container">
-				<img class="photo" src="static/photoB.png" alt="AI's photo">
-				<div class="text_img">Великолепный ИИ</div>
+				<img class="photo" src="static/Nika_225.png" alt="AI's photo">
+				<div class="text_img">ИИ (Ника)</div>
 			</div>
+		</div>
+
+		<h1>Результат игры:</h1>
+
+		<div id="vs">
+			<p>Вы выбрали -
+			<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
+			<img src="static/vs_small.png" height="100%" alt="VS.">
+			<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
+			 - выбрал ИИ</p>
+		</div>
+
+		<div id="results"
+			<p>
+				<b>{{ result_text }}</b>
+				<b>{{ score_text }}</b>
+				<form action="/" method="post">
+					{% csrf_token %}
+					<input type="submit" class="button" name="btnSubmit" value="Сброс"></input>
+				</form>
+			</p>
 		</div>
 
 		<h1>Ваш выбор:</h1>
@@ -31,27 +53,10 @@
 		<div id="choosing">
 			<form action="/" method="post">
 				{% csrf_token %}
-				<input type="image" src="{% static 'paper_r.png' %}" name="btnPaper"/>
-				<input type="image" src="{% static 'scissors_r.png' %}" name="btnScissors"/>
-				<input type="image" src="{% static 'rock_r.png' %}" name="btnRock"/>
+				<input type="image" title="Бумага" src="{% static 'paper_r.png' %}" name="btnPaper"/>
+				<input type="image" title="Ножницы" src="{% static 'scissors_r.png' %}" name="btnScissors"/>
+				<input type="image" title="Камень" src="{% static 'rock_r.png' %}" name="btnRock"/>
 			</form>
-		</div>
-
-		<h1>Результат игры:</h1>
-
-		<div id="results">
-			<p>Вы выбрали - </p>
-			<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
-			<p>выбрал ИИ - </p>
-			<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
-			<p>
-				<b>{{ result_text }}</b><br>
-				<b>{{ score_text }}</b><br>
-				<form action="/" method="post">
-					{% csrf_token %}
-					<input type="submit" class="button" name="btnSubmit" value="Сброс"></input>
-				</form>
-			</p>
 		</div>
 
 		<h1>График</h1>
