@@ -42,11 +42,16 @@
 		<div id="results">
 			<p>Вы выбрали - </p>
 			<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
-			<p>ИИ выбрал - </p>
+			<p>выбрал ИИ - </p>
 			<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
-			<p><b>{{ result_text }}</b><br>
-			<b>{{ score_text }}</b><br>
-			<a class="button">Сброс</a></p>
+			<p>
+				<b>{{ result_text }}</b><br>
+				<b>{{ score_text }}</b><br>
+				<form action="/" method="post">
+					{% csrf_token %}
+					<input type="submit" class="button" name="btnSubmit" value="Сброс"></input>
+				</form>
+			</p>
 		</div>
 
 		<h1>График</h1>
