@@ -19,8 +19,14 @@ def print_debug(player_ui, request):
 
 
 def post_list(request):
-    player_ui = PlayerUI.objects.get(id=request.session.session_key)
+    if not request.session.session_key:
+        request.session.save()
 
+    try:
+        player_ui = PlayerUI.objects.get(id=request.session.session_key)
+    except PlayerUI.DoesNotExist:
+        user = PlayerUI(id=request.session.session_key)
+	
     if DEBUG:
         print_debug(player_ui, request)
 
@@ -30,7 +36,7 @@ def post_list(request):
         reset_click(player_ui, request)
 
     context = saveContext(player_ui)
-
+	
     return render(request, 'app/post_list.html', context=context)
 
 
