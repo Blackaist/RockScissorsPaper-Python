@@ -16,6 +16,9 @@ draw_text = "Ничья!"
 
 def print_debug(player_ui, request):
     print(player_ui.id)
+    #print(player_ui.human_story_choices)
+    #print(player_ui.ai_story_choices)
+    print(player_ui.draws + player_ui.loses + player_ui.wins)
 
 
 def post_list(request):
@@ -25,18 +28,17 @@ def post_list(request):
     try:
         player_ui = PlayerUI.objects.get(id=request.session.session_key)
     except PlayerUI.DoesNotExist:
-        user = PlayerUI(id=request.session.session_key)
-	
+        player_ui = PlayerUI(id=request.session.session_key)
+
     if DEBUG:
         print_debug(player_ui, request)
 
     if 'btnPaper.x' in request.POST or 'btnScissors.x' in request.POST or 'btnRock.x' in request.POST:
         button_click(player_ui, request)
-    elif 'btnSubmit' in request.POST:
-        reset_click(player_ui, request)
-
+    elif 'btnReset' in request.POST:
+        player_ui = reset_click(request)
     context = saveContext(player_ui)
-	
+
     return render(request, 'app/post_list.html', context=context)
 
 
@@ -86,9 +88,10 @@ def updateScore(player_ui, request):
         player_ui.human_story_choices += player_ui.human_choice[0] + ' '
 
 
-def reset_click(player_ui, request):
+def reset_click(request):
     player_ui = PlayerUI(id=request.session.session_key)
     player_ui.save()
+    return player_ui
 
 
 def saveContext(player_ui):
