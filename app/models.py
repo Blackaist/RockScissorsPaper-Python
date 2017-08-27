@@ -9,7 +9,7 @@ class PlayerUI(models.Model):
 
     human_choice = models.TextField(default='empty.png', null=False)
     ai_choice = models.TextField(default='empty.png', null=False)
-    result_text = models.TextField(default=' ')
+    result_text = models.TextField(default=' ')
     score_text = models.TextField(default='0:0')
 
     human_story_choices = models.TextField(default='')
