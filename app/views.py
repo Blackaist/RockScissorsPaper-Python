@@ -80,7 +80,7 @@ def compareTwoChooses(player_ui, request):
 
 
 def updateScore(player_ui, request):
-    player_ui.score_text = 'Счет: ' + str(player_ui.wins) + ' - ' + str(player_ui.loses)
+    player_ui.score_text = str(player_ui.wins) + ':' + str(player_ui.loses)
     if DEBUG:
         player_ui.ai_story_choices += player_ui.ai_choice[0] + ' '
         player_ui.human_story_choices += player_ui.human_choice[0] + ' '

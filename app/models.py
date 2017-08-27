@@ -7,10 +7,10 @@ from django.forms import forms
 class PlayerUI(models.Model):
     id = models.TextField(primary_key=True, null=False)
 
-    human_choice = models.TextField(default='scissors_r.png', null=False)
-    ai_choice = models.TextField(default='scissors_r.png', null=False)
-    result_text = models.TextField(default='')
-    score_text = models.TextField(default='Счет: ')
+    human_choice = models.TextField(default='empty.png', null=False)
+    ai_choice = models.TextField(default='empty.png', null=False)
+    result_text = models.TextField(default=' ')
+    score_text = models.TextField(default='0:0')
 
     human_story_choices = models.TextField(default='')
     ai_story_choices = models.TextField(default='')

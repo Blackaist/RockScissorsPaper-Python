@@ -11,6 +11,7 @@
 		-->
 		<link rel="stylesheet" href="static/style.css">
 		<link href="https://fonts.googleapis.com/css?family=Play:400,700&amp;subset=cyrillic" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 	<body>
@@ -18,45 +19,41 @@
 
 			<div class="container">
 				<img class="photo" src="static/Anon_225.png" alt="Gamer's photo">
-				<div class="text_img">Игрок (Вы)</div>
+				<div class="text_img">Вы</div>
 			</div>
-
+			<div id="results">
+				<p><span>{{ score_text }}</span>
+				<br>{{ result_text }}</p>
+				<div id="vs">
+					<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
+					<img src="static/vs_small.png" alt="VS." height="100%">
+					<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
+				</div>
+			</div>
 			<div class="container">
 				<img class="photo" src="static/Nika_225.png" alt="AI's photo">
-				<div class="text_img">ИИ (Ника)</div>
+				<div class="text_img">Ника (ИИ)</div>
 			</div>
 		</div>
 
-		<h1>Результат игры:</h1>
-
-		<div id="vs">
-			<p>Вы выбрали -
-			<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
-			<img src="static/vs_small.png" height="100%" alt="VS.">
-			<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
-			 - выбрал ИИ</p>
-		</div>
-
-		<div id="results"
-			<p>
-				<b>{{ result_text }}</b>
-				<b>{{ score_text }}</b>
+		<div id="choosing">
+			<p>Ваш выбор:</p>
+			<div class="choosing--buttons">
 				<form action="/" method="post">
 					{% csrf_token %}
-					<input type="submit" class="button" name="btnSubmit" value="Сброс"></input>
+					<input type="image" title="Бумага" src="{% static 'paper_r.png' %}" name="btnPaper"/>
+					<input type="image" title="Ножницы" src="{% static 'scissors_r.png' %}" name="btnScissors"/>
+					<input type="image" title="Камень" src="{% static 'rock_r.png' %}" name="btnRock"/>
 				</form>
-			</p>
-		</div>
-
-		<h1>Ваш выбор:</h1>
-
-		<div id="choosing">
+			</div>
 			<form action="/" method="post">
 				{% csrf_token %}
-				<input type="image" title="Бумага" src="{% static 'paper_r.png' %}" name="btnPaper"/>
-				<input type="image" title="Ножницы" src="{% static 'scissors_r.png' %}" name="btnScissors"/>
-				<input type="image" title="Камень" src="{% static 'rock_r.png' %}" name="btnRock"/>
+				<input type="submit" class="button" name="btnSubmit" value="Сброс"></input>
 			</form>
+		</div>
+
+		<div id="reset"
+
 		</div>
 
 		<h1>График</h1>
