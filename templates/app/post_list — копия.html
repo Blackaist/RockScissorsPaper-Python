@@ -56,29 +56,6 @@
 
 		</div>
 
-		{% load googlecharts %}
-		
-		<div id="count_graph"></div>
-
-		{% googlecharts %}
-			{% data values "count" %}
-				{% col "string" "Name" %}"{{ val }}"{% endcol %}
-				{% col "number" "Value" %}{{ val }}{% endcol %}
-			{% enddata %}
-
-			{% options %}
-				kind: "SteppedAreaChart",
-				options: {
-					backgroundColor: "#f9f9f9",
-					legend: "none",
-					colors: ["#09f"],
-					gridlineColor: "#ddd",
-					width: 640,
-					height: 320
-				}
-			{% endoptions %}
-
-			{% graph "count_graph" "count" %}
-		{% endgooglecharts %}
+		<h1>График</h1>
 	</body>
 </html>

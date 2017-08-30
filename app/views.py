@@ -6,6 +6,7 @@ from django.shortcuts import render
 from WebTest.settings import DEBUG
 from app.models import PlayerUI
 
+
 imgs = ['paper_r.png', 'scissors_r.png', 'rock_r.png']
 
 
@@ -14,7 +15,7 @@ lose_text = "Вы проиграли!"
 draw_text = "Ничья!"
 
 
-def print_debug(player_ui, request):
+def print_debug(player_ui):
     print(player_ui.id)
     #print(player_ui.human_story_choices)
     #print(player_ui.ai_story_choices)
@@ -31,7 +32,7 @@ def post_list(request):
         player_ui = PlayerUI(id=request.session.session_key)
 
     if DEBUG:
-        print_debug(player_ui, request)
+        print_debug(player_ui)
 
     if 'btnPaper.x' in request.POST or 'btnScissors.x' in request.POST or 'btnRock.x' in request.POST:
         button_click(player_ui, request)
@@ -46,11 +47,12 @@ def button_click(player_ui, request):
     imgChangeHumanChoice(player_ui, request.POST)
     imgChangeAIChoice(player_ui, random.choice(imgs))
 
-    compareTwoChooses(player_ui, request)
+    compareTwoChooses(player_ui)
 
-    updateScore(player_ui, request)
+    updateScore(player_ui)
 
     player_ui.save()
+
 
 
 def imgChangeHumanChoice(player_ui, post):
@@ -66,7 +68,7 @@ def imgChangeAIChoice(player_ui, str):
     player_ui.ai_choice = str
 
 
-def compareTwoChooses(player_ui, request):
+def compareTwoChooses(player_ui):
     if player_ui.human_choice == player_ui.ai_choice:
         player_ui.result_text = draw_text
         player_ui.draws += 1
@@ -81,7 +83,7 @@ def compareTwoChooses(player_ui, request):
             player_ui.result_text = lose_text
 
 
-def updateScore(player_ui, request):
+def updateScore(player_ui):
     player_ui.score_text = str(player_ui.wins) + ':' + str(player_ui.loses)
     if DEBUG:
         player_ui.ai_story_choices += player_ui.ai_choice[0] + ' '
@@ -102,5 +104,6 @@ def saveContext(player_ui):
         'score_text': player_ui.score_text,
         'wins': player_ui.wins,
         'loses': player_ui.loses,
-        'draws': player_ui.draws
+        'draws': player_ui.draws,
+        'values': [[1, 1], [2, 2], [3, 0], [4, -1], [3, -2]]
     }
