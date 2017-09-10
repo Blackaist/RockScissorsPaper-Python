@@ -4,34 +4,34 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Doge go fast</title>
-		<!--
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap-theme.min.css">
-		-->
-		<link rel="stylesheet" href="static/style.css">
+		<title>Rock, Paper, Scissors</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<link rel="stylesheet" href="{% static 'style.css' %}">
 		<link href="https://fonts.googleapis.com/css?family=Play:400,700&amp;subset=cyrillic" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 	</head>
 	<body>
+
 		<div id="header">
 
 			<div class="container">
-				<img class="photo" src="static/Anon_225.png" alt="Gamer's photo">
+				<img class="photo" src="{% static 'Anon_225.png' %}" alt="Gamer's photo">
 				<div class="text_img">Вы</div>
 			</div>
 			<div id="results">
 				<p><span>{{ score_text }}</span>
 				<br>{{ result_text }}</p>
 				<div id="vs">
-					<img id="humanchoise" src={% static "" %}{{ human_choice }}></img>
-					<img src="static/vs_small.png" alt="VS." height="100%">
-					<img id="enemychoise" src={% static "" %}{{ AI_choice }}></img>
+					<img id="humanchoise" src={% static "" %}{{ human_choice }}>
+					<img src="{% static 'vs_small.png' %}" alt="VS." height="100%">
+					<img id="enemychoise" src={% static "" %}{{ AI_choice }}>
 				</div>
 			</div>
 			<div class="container">
-				<img class="photo" src="static/Nika_225.png" alt="AI's photo">
+				<img class="photo" src="{% static 'Nika_225.png' %}" alt="AI's photo">
 				<div class="text_img">Ника (ИИ)</div>
 			</div>
 		</div>
@@ -51,34 +51,54 @@
 				<input type="submit" class="button" name="btnReset" value="Сброс"></input>
 			</form>
 		</div>
-
-		<div id="reset"
-
-		</div>
-
-		{% load googlecharts %}
 		
 		<div id="count_graph"></div>
 
-		{% googlecharts %}
-			{% data values "count" %}
-				{% col "string" "Name" %}"{{ val }}"{% endcol %}
-				{% col "number" "Value" %}{{ val }}{% endcol %}
-			{% enddata %}
+		
+			<div class='col-md-6' url-endpoint='{% url "api-data" %}'>
+				<canvas id="myChart" style="margin-left: 50%"></canvas>
+			</div>
+         
 
-			{% options %}
-				kind: "SteppedAreaChart",
-				options: {
-					backgroundColor: "#f9f9f9",
-					legend: "none",
-					colors: ["#09f"],
-					gridlineColor: "#ddd",
-					width: 640,
-					height: 320
-				}
-			{% endoptions %}
+        <script>
+		{% block jquery %}
+		var endpoint = 'api/chart/data'
+		var defaultData = []
+        var labels = [];
 
-			{% graph "count_graph" "count" %}
-		{% endgooglecharts %}
+		$.ajax({
+			method: "GET",
+			url: endpoint,
+			success: function(data){
+			    labels = data.labels
+                defaultData = data.defaultData
+                setChart()
+
+			},
+			error: function(error_data){
+				console.log(error_data)
+			}
+		})
+        function setChart() {
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+					datasets: [{
+                        label: '# Score',
+                        data: defaultData,
+                        steppedLine: true,
+                    }]
+                }
+            })
+        }
+
+		{% endblock %}
+		</script>
+		<div class="container">
+			<a href="https://github.com/Blackaist/RockScissorsPaper-Python" ><img src="{% static 'GitHub-Mark-32px.png' %}"></a>
+			<a href="stats"><img src="{% static 'stats.png' %}" width="32px" height="32px"></a>
+		</div>
 	</body>
 </html>

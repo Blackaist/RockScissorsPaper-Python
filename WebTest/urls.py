@@ -16,7 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from .views import get_data, ChartData, post_list
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('app.urls')),
+    url(r'^$', post_list, name="post_list"),
+    url(r'^stats/', include('app.urls')),
+    url(r'^api/data$', get_data, name="api-data"),
+    url(r'^api/chart/data$', ChartData.as_view()),
 ]

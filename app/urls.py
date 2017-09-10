@@ -1,8 +1,8 @@
 
-from django.conf.urls import include, url
+from django.conf.urls import url
 
 
-from app.views import post_list
+from app.views import get_data
 
 # urls используется для связывания форм и функций.
 # buttonClick вызывается в пространстве app
@@ -10,5 +10,5 @@ from app.views import post_list
 app_name = 'app'
 
 urlpatterns = [
-    url(r'^$', post_list, name="post_list"),
+    url(r'^$', get_data, name="api-data"),
 ]

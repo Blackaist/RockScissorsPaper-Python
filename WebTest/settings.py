@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ProjectName',
     'app',
-    'googlecharts',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

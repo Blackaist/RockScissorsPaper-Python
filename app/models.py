@@ -18,3 +18,5 @@ class PlayerUI(models.Model):
     wins = models.IntegerField(default=0, null=False)
     loses = models.IntegerField(default=0, null=False)
     draws = models.IntegerField(default=0, null=False)
+
+    sequence = models.TextField(default='0', null=False)

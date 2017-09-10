@@ -1,0 +1,91 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Rock, Paper, Scissors</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<link rel="stylesheet" href="{% static 'style.css' %}">
+		<link href="https://fonts.googleapis.com/css?family=Play:400,700&amp;subset=cyrillic" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+	</head>
+	<body>
+		<div class='row'>
+			<div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+                <div class='col-sm-6'>
+				    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+                <div class='col-sm-6'>
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <script>
+		{% block jquery %}
+		var endpoint = 'api/chart/data'
+		var defaultData = []
+        var labels = [];
+
+		$.ajax({
+			method: "GET",
+			url: endpoint,
+			success: function(data){
+			    labels = data.labels
+                defaultData = data.defaultData
+                setChart()
+
+			},
+			error: function(error_data){
+				console.log(error_data)
+			}
+		})
+        function setChart() {
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                       label: '# of Wins',
+                        data: defaultData,
+                        steppedLine: true,
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1
+					}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true
+							}
+						}]
+					}
+				}
+			});
+        }
+		{% endblock %}
+		</script>
+		
+	</body>
+</html>
