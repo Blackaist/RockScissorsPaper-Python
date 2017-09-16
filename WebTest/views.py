@@ -1,16 +1,15 @@
 import random
-
+import json
+from django.http import HttpResponse
 from django.http import JsonResponse
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
-
 from django.shortcuts import render
 from WebTest.settings import DEBUG
 from app.models import PlayerUI
-
 
 imgs = ['paper_r.png', 'scissors_r.png', 'rock_r.png']
 win_text = "Вы победили!"
@@ -29,8 +28,6 @@ def get_data(request):
 
 
 class ChartData(APIView):
-
-
     authentication_classes = []
     permission_classes = []
 
@@ -43,24 +40,28 @@ class ChartData(APIView):
         except PlayerUI.DoesNotExist:
             player_ui = PlayerUI(id=request.session.session_key)
 
-        summ = player_ui.wins + player_ui.loses + player_ui.draws
+        summ = player_ui.wins + player_ui.loses + player_ui.draws + 1  # or +2?
         labels = [i for i in (range(0, summ))]
         default_items = str(player_ui.sequence).split()
+        # default_items.append(0);
+        context = saveContext(player_ui)
         data = {
             "labels": labels,
             "defaultData": default_items,
+            "context": context,
         }
         return Response(data)
 
 
 def print_debug(player_ui):
     print(player_ui.id)
-    #print(player_ui.human_story_choices)
-    #print(player_ui.ai_story_choices)
+    # print(player_ui.human_story_choices)
+    # print(player_ui.ai_story_choices)
     print(player_ui.draws + player_ui.loses + player_ui.wins)
 
 
 def post_list(request):
+
     if not request.session.session_key:
         request.session.save()
 
@@ -76,9 +77,8 @@ def post_list(request):
         button_click(player_ui, request)
     elif 'btnReset' in request.POST:
         player_ui = reset_click(request)
-    context = saveContext(player_ui)
 
-    return render(request, 'app/post_list.html', context=context)
+    return render(request, 'app/post_list.html', context=saveContext(player_ui))
 
 
 def button_click(player_ui, request):

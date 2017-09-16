@@ -22,12 +22,12 @@
 				<div class="text_img">Вы</div>
 			</div>
 			<div id="results">
-				<p><span>{{ score_text }}</span>
-				<br>{{ result_text }}</p>
+				<p><span id="scr_txt"></span>
+				<br><p id="res_txt"></p></p>
 				<div id="vs">
-					<img id="humanchoise" src={% static "" %}{{ human_choice }}>
+					<img id="humanchoise">
 					<img src="{% static 'vs_small.png' %}" alt="VS." height="100%">
-					<img id="enemychoise" src={% static "" %}{{ AI_choice }}>
+					<img id="enemychoise">
 				</div>
 			</div>
 			<div class="container">
@@ -54,11 +54,9 @@
 		
 		<div id="count_graph"></div>
 
-		
-			<div class='col-md-6' url-endpoint='{% url "api-data" %}'>
-				<canvas id="myChart" style="margin-left: 50%"></canvas>
-			</div>
-         
+		<div class='col-md-6' url-endpoint='{% url "api-data" %}'>
+			<canvas id="myChart" style="margin-left: 50%"></canvas>
+		</div>
 
         <script>
 		{% block jquery %}
@@ -72,8 +70,11 @@
 			success: function(data){
 			    labels = data.labels
                 defaultData = data.defaultData
-                setChart()
-
+				document.getElementById("scr_txt").innerHTML = data.context.score_text
+				document.getElementById("res_txt").innerHTML = data.context.result_text
+				document.getElementById("humanchoise").src = {% static "" %} + data.context.human_choice
+				document.getElementById("enemychoise").src = {% static "" %} + data.context.AI_choice
+				setChart()
 			},
 			error: function(error_data){
 				console.log(error_data)
@@ -83,6 +84,7 @@
             var ctx = document.getElementById("myChart").getContext("2d");
             var myChart = new Chart(ctx, {
                 type: 'line',
+				scaleSteps : 10,
                 data: {
                     labels: labels,
 					datasets: [{
@@ -93,7 +95,32 @@
 							'rgba(255, 159, 64, 0.4)'
 						],
                     }]
-                }
+                }, 
+				options: {
+					responsive: true,
+					legend: {
+						position: 'bottom',
+					},
+					hover: {
+						mode: 'label'
+					},
+					scales: {
+						xAxes: [{
+								display: true,
+								scaleLabel: {
+									display: true,
+									labelString: 'Games'
+								}
+							}],
+						yAxes: [{
+								display: true,
+								ticks: {
+									beginAtZero: true,
+									fixedStepSize: 1,
+								}
+							}]
+					},
+            }
             })
         }
 
