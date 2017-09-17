@@ -40,10 +40,10 @@ class ChartData(APIView):
         except PlayerUI.DoesNotExist:
             player_ui = PlayerUI(id=request.session.session_key)
 
-        summ = player_ui.wins + player_ui.loses + player_ui.draws + 1  # or +2?
+        summ = player_ui.wins + player_ui.loses + player_ui.draws + 2
         labels = [i for i in (range(0, summ))]
         default_items = str(player_ui.sequence).split()
-        # default_items.append(0);
+        # default_items.append(default_items[-1]);
         context = saveContext(player_ui)
         data = {
             "labels": labels,
