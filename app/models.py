@@ -20,3 +20,18 @@ class PlayerUI(models.Model):
     draws = models.IntegerField(default=0, null=False)
 
     sequence = models.TextField(default='0', null=False)
+
+
+class GlobalStatistic(models.Model):
+    id = models.TextField(primary_key=True, null=False, default='globals')
+
+    pair_y_r = models.TextField(default='')
+
+    wins = models.IntegerField(default=0, null=False)
+    loses = models.IntegerField(default=0, null=False)
+    draws = models.IntegerField(default=0, null=False)
+
+    rocks = models.IntegerField(default=0, null=False)
+    papers = models.IntegerField(default=0, null=False)
+    scissors = models.IntegerField(default=0, null=False)
+

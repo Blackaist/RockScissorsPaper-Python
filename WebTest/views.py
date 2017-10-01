@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 
 from django.shortcuts import render
 from WebTest.settings import DEBUG
-from app.models import PlayerUI
+from app.models import PlayerUI, GlobalStatistic
 
 imgs = ['paper_r.png', 'scissors_r.png', 'rock_r.png']
 win_text = "Вы победили!"
@@ -57,7 +57,7 @@ def print_debug(player_ui):
     print(player_ui.id)
     # print(player_ui.human_story_choices)
     # print(player_ui.ai_story_choices)
-    print(player_ui.draws + player_ui.loses + player_ui.wins)
+    # print(player_ui.draws + player_ui.loses + player_ui.wins)
 
 
 def post_list(request):
@@ -85,7 +85,7 @@ def button_click(player_ui, request):
     imgChangeHumanChoice(player_ui, request.POST)
     imgChangeAIChoice(player_ui, random.choice(imgs))
 
-    compareTwoChooses(player_ui)
+    compareTwoChoosesAndSaveInGlobalStat(player_ui)
 
     updateScore(player_ui)
 
@@ -105,20 +105,61 @@ def imgChangeAIChoice(player_ui, str):
     player_ui.ai_choice = str
 
 
-def compareTwoChooses(player_ui):
+def compareTwoChoosesAndSaveInGlobalStat(player_ui):
+    global_stat = GlobalStatistic.objects.get(id='globals')
+    games10 = int((player_ui.loses + player_ui.wins + player_ui.draws) / 10) * 2
+    winsMinusLoses = player_ui.wins - player_ui.loses
+    pair = list(map(float, global_stat.pair_y_r.split()))
+
+    if (player_ui.loses + player_ui.wins + player_ui.draws) == 0:
+        pair[games10 + 1] += 1
+
+    currentPlayers = int(pair[games10 - 1])
+
+    # score update
     if player_ui.human_choice == player_ui.ai_choice:
         player_ui.result_text = draw_text
         player_ui.draws += 1
+        global_stat.draws += 1
     else:
         if player_ui.human_choice == imgs[0] and player_ui.ai_choice == imgs[2] \
                 or player_ui.human_choice == imgs[1] and player_ui.ai_choice == imgs[0] \
                 or player_ui.human_choice == imgs[2] and player_ui.ai_choice == imgs[1]:
             player_ui.wins += 1
+            global_stat.wins += 1
             player_ui.result_text = win_text
         else:
             player_ui.loses += 1
+            global_stat.loses += 1
             player_ui.result_text = lose_text
     player_ui.sequence += ' ' + str(player_ui.wins - player_ui.loses)
+
+    if player_ui.human_choice[0] == 'r':
+        global_stat.rocks += 1
+    elif player_ui.human_choice[0] == 'p':
+        global_stat.papers += 1
+    else:
+        global_stat.scissors += 1
+    # score update
+
+    games10 = int((player_ui.loses + player_ui.wins + player_ui.draws) / 10) * 2
+    if (player_ui.loses + player_ui.wins + player_ui.draws) % 10 == 0:
+        pair[games10 + 1] += 1
+        pair[games10 - 1] -= 1
+        if currentPlayers == 1:
+            pair[games10 - 2] = 0
+        else:
+            pair[games10 - 2] = (pair[games10 - 2]*currentPlayers - winsMinusLoses*currentPlayers)/(currentPlayers - 1)
+
+    currentPlayers = int(pair[games10 + 1])
+    winsMinusLoses = player_ui.wins - player_ui.loses
+    pair[games10] = (pair[games10]*(currentPlayers - 1) + winsMinusLoses)/currentPlayers
+    save = ''
+    for word in pair:
+        save = save + str(word) + ' '
+    save = save[:-1]
+    global_stat.pair_y_r = save
+    global_stat.save()
 
 
 def updateScore(player_ui):
@@ -131,6 +172,18 @@ def updateScore(player_ui):
 def reset_click(request):
     player_ui = PlayerUI(id=request.session.session_key)
     player_ui.save()
+
+    global_stat = GlobalStatistic.objects.get(id='globals')
+
+    global_stat.wins -= player_ui.wins
+    global_stat.loses -= player_ui.loses
+    global_stat.draws -= player_ui.draws
+    global_stat.rocks -= player_ui.human_choice.count('r')
+    global_stat.papers -= player_ui.human_choice.count('p')
+    global_stat.scissors -= player_ui.human_choice.count('s')
+    global_stat.pair_y_r = '0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0'
+
+    global_stat.save()
     return player_ui
 
 
