@@ -17,12 +17,12 @@
 	<div class='container'>
 		<div class='row'>
 			<div class='col-6' url-endpoint='{% url "api-data" %}'>
-				Global
+				Всех игроков
 				<canvas id="GlobalPie"></canvas>	
 				<canvas id="GlobalPolar"></canvas>
             </div>
 			<div class='col-6' url-endpoint='{% url "api-data" %}'>
-				You
+				Только ваше
 				<canvas id="LocalPie"></canvas>
 				<canvas id="LocalPolar"></canvas>
 			</div>	
@@ -69,12 +69,12 @@
                 type: 'polarArea',
                 data: {
                     labels: [
-							'Rocks',
-							'Scissors',
-							'Papers'
+							'Камень',
+							'Ножницы',
+							'Бумага'
 						],
                     datasets: [{
-                       label: '% Player Wins',
+                       label: '% Побед игрока',
                         data: dataset,
 						backgroundColor: [
 							'rgb(255, 99, 132)',
@@ -98,12 +98,12 @@
                 type: 'bubble',
                 data: {
                     labels: [
-							'Wins',
-							'Loses',
-							'Draws'
+							'Победы',
+							'Поражения',
+							'Ничьи'
 						],
                     datasets: [{
-                       label: 'When players left the game',
+                       label: 'Когда люди выходят из игры',
                         data: dataset,
 						backgroundColor: 
 							'rgb(160, 100, 192)'
@@ -116,7 +116,7 @@
 									display: true,
 									scaleLabel: {
 										display: true,
-										labelString: 'Ten Games'
+										labelString: 'Десять игр'
 									},
 									ticks: {
 										beginAtZero: true,
@@ -127,7 +127,7 @@
 									display: true,
 									scaleLabel: {
 										display: true,
-										labelString: 'Wins - Loses'
+										labelString: 'Очки'
 									},
 									ticks: {
 										beginAtZero: true,
@@ -146,9 +146,9 @@
                 type: 'pie',
                 data: {
                     labels: [
-							'Wins',
-							'Loses',
-							'Draws'
+							'Победы',
+							'Поражения',
+							'Ничьи'
 						],
                     datasets: [{
                        label: '% Player Wins',
@@ -171,7 +171,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                       label: '# of Wins',
+                       label: '# Побед',
                         data: defaultData,
                         steppedLine: true,
 						backgroundColor: [

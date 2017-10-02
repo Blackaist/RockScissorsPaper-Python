@@ -25,8 +25,6 @@ class PlayerUI(models.Model):
 class GlobalStatistic(models.Model):
     id = models.TextField(primary_key=True, null=False, default='globals')
 
-    pair_y_r = models.TextField(default='')
-
     wins = models.IntegerField(default=0, null=False)
     loses = models.IntegerField(default=0, null=False)
     draws = models.IntegerField(default=0, null=False)
