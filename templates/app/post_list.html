@@ -16,16 +16,15 @@
 	<body>
 
 		<div id="header">
-
 			<div class="container">
 				<img class="photo" src="{% static 'Player_225.png' %}" alt="Gamer's photo">
 				<div class="text_img">Вы</div>
 			</div>
 			<div id="results">
 				<p><span id="scr_txt"></span>
-				<br><p id="res_txt"></p></p>
+				<br><p id="res_txt"> </p></p>
 				<div id="vs">
-					<img id="humanchoise">
+					<img id="humanchoise" >
 					<img src="{% static 'vs_small.png' %}" alt="VS." height="100%">
 					<img id="enemychoise">
 				</div>
@@ -35,7 +34,19 @@
 				<div class="text_img">Ника (ИИ)</div>
 			</div>
 		</div>
-
+		{% csrf_token %}
+		<script>
+			function getCookie(name) {
+				var value = "; " + document.cookie;
+				var parts = value.split("; " + name + "=");
+				if (parts.length == 2) 
+					return parts.pop().split(";").shift();
+			}
+			document.getElementById("scr_txt").innerHTML = getCookie("scr_txt");
+			document.getElementById("res_txt").innerHTML = getCookie("res_txt");
+			document.getElementById("humanchoise").src = getCookie("humanchoise");
+			document.getElementById("enemychoise").src = getCookie("enemychoise");
+		</script>
 		<div id="choosing">
 			<p>Ваш выбор:</p>
 			<div class="choosing--buttons">
@@ -51,8 +62,6 @@
 				<input type="submit" class="button" name="btnReset" value="Сброс"></input>
 			</form>
 		</div>
-		
-		<div id="count_graph"></div>
 
 		<div class='col-md-6' url-endpoint='{% url "api-data" %}'>
 			<canvas id="myChart" style="margin-left: 50%"></canvas>
@@ -68,12 +77,23 @@
 			method: "GET",
 			url: endpoint,
 			success: function(data){
+				var staticPathToHumanChoice = {% static "" %} + data.context.human_choice
+				var staticPathToEnemyChoice = {% static "" %} + data.context.AI_choice
+				
 			    labels = data.labels
                 defaultData = data.defaultData
 				document.getElementById("scr_txt").innerHTML = data.context.score_text
 				document.getElementById("res_txt").innerHTML = data.context.result_text
-				document.getElementById("humanchoise").src = {% static "" %} + data.context.human_choice
-				document.getElementById("enemychoise").src = {% static "" %} + data.context.AI_choice
+				if	(staticPathToHumanChoice != getCookie("humanchoise"))
+					document.getElementById("humanchoise").src = staticPathToHumanChoice
+				if	(staticPathToEnemyChoice != getCookie("enemychoise"))
+				document.getElementById("enemychoise").src = staticPathToEnemyChoice
+				
+				document.cookie="scr_txt="+data.context.score_text+";";	
+				document.cookie="res_txt="+data.context.result_text+";";	
+				document.cookie="humanchoise="+staticPathToHumanChoice+";";
+				document.cookie="enemychoise="+staticPathToEnemyChoice+";";
+
 				setChart()
 			},
 			error: function(error_data){
