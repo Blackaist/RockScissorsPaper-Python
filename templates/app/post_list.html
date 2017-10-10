@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -21,12 +20,12 @@
 				<div class="text_img">Вы</div>
 			</div>
 			<div id="results">
-				<p><span id="scr_txt"></span>
-				<br><p id="res_txt"> </p></p>
+				<p><span id="scr_txt">{{ score_text }}</span>
+				<br><p id="res_txt"> {{ result_text }}</p></p>
 				<div id="vs">
-					<img id="humanchoise" >
+					<img id="humanchoise" src="{% static '' %}{{ human_choice }}">
 					<img src="{% static 'vs_small.png' %}" alt="VS." height="100%">
-					<img id="enemychoise">
+					<img id="enemychoise" src="{% static '' %}{{ AI_choice }}">
 				</div>
 			</div>
 			<div class="container">
@@ -34,19 +33,7 @@
 				<div class="text_img">Ника (ИИ)</div>
 			</div>
 		</div>
-		{% csrf_token %}
-		<script>
-			function getCookie(name) {
-				var value = "; " + document.cookie;
-				var parts = value.split("; " + name + "=");
-				if (parts.length == 2) 
-					return parts.pop().split(";").shift();
-			}
-			document.getElementById("scr_txt").innerHTML = getCookie("scr_txt");
-			document.getElementById("res_txt").innerHTML = getCookie("res_txt");
-			document.getElementById("humanchoise").src = getCookie("humanchoise");
-			document.getElementById("enemychoise").src = getCookie("enemychoise");
-		</script>
+
 		<div id="choosing">
 			<p>Ваш выбор:</p>
 			<div class="choosing--buttons">
@@ -76,24 +63,9 @@
 		$.ajax({
 			method: "GET",
 			url: endpoint,
-			success: function(data){
-				var staticPathToHumanChoice = {% static "" %} + data.context.human_choice
-				var staticPathToEnemyChoice = {% static "" %} + data.context.AI_choice
-				
+			success: function(data){			
 			    labels = data.labels
                 defaultData = data.defaultData
-				document.getElementById("scr_txt").innerHTML = data.context.score_text
-				document.getElementById("res_txt").innerHTML = data.context.result_text
-				if	(staticPathToHumanChoice != getCookie("humanchoise"))
-					document.getElementById("humanchoise").src = staticPathToHumanChoice
-				if	(staticPathToEnemyChoice != getCookie("enemychoise"))
-				document.getElementById("enemychoise").src = staticPathToEnemyChoice
-				
-				document.cookie="scr_txt="+data.context.score_text+";";	
-				document.cookie="res_txt="+data.context.result_text+";";	
-				document.cookie="humanchoise="+staticPathToHumanChoice+";";
-				document.cookie="enemychoise="+staticPathToEnemyChoice+";";
-
 				setChart()
 			},
 			error: function(error_data){
