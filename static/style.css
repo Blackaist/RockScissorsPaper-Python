@@ -1,30 +1,87 @@
-body {
+html {
   box-sizing: border-box;
-  /*background-color: white;*/
-  background: linear-gradient(to bottom, #fce374, #75faaa);
-  font-family: 'Play', sans-serif;
-  font-size: 22px;
-  margin: 0;
+  height: 100%;
 }
 
 *, *::before, *::after {
   box-sizing: inherit;
 }
 
+body {
+  position: relative;
+  min-height: 100%;
+  background: #ffffff;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #ffeb97, #ffffff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #ffeb97, #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-attachment: fixed;
+  font-family: 'Play', sans-serif;
+  font-size: 22px;
+  line-height: 1;
+  margin: 0;
+}
+
 #header,
-#reset,
-#choosing {
+#results,
+#choosing,
+#game-footer {
   max-width: 1024px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  align-items: flex-start;
   padding: 10px 0;
+  
+}
+#choosing-circle {
+  display: block; 
+  width: 350px; 
+  height: 200px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0;
+  top: 30px;
+}
+#circle {
+  background: transparent;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border: 10px solid #ed5d27;
+  position: absolute;
+  top: 10px;
+  left: 80px;
+}
+input[type="image"] {
+  border-radius: 50%;
+  background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa);
+  box-shadow: 	3px 6px 20px rgba(0,0,0,0.3), 
+				-3px -6px 20px rgba(255,255,255,0.5);
+  position: absolute;
+  top: 50px;
+  left: 120px;
+  z-index: 10;
 }
 
-#vs,
-#references {
+input[type="image"]:hover {
+  box-shadow: 	0 12px 16px 0 rgba(0,0,0,0.24), 
+				0 17px 50px 0 rgba(0,0,0,0.19);
+}
+input[name="btnPaper"]{
+  transform: rotate(90deg) translate(80px) rotate(-90deg);
+}
+input[name="btnScissors"]{
+  transform: rotate(210deg) translate(80px) rotate(-210deg);
+}
+input[name="btnRock"]{
+  transform: rotate(330deg) translate(80px) rotate(-330deg);
+}
+#choosing {
+	display: none;
+}
+#vs {
   width: 400px;
   margin: 0 auto;
   display: flex;
@@ -34,30 +91,40 @@ body {
   padding: 10px 0;
 }
 
-form {
-  margin: 0;
-  padding: 0 20px;
-}
-
 p, h1 {
   text-align: center;
-  margin: auto 0;
+  margin: 0;
+  display: block;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+#res_txt {
+  color: white;
+  text-shadow: 	1px 1px #ed5d27, 
+				1px -1px #ed5d27, 
+				-1px 1px #ed5d27, 
+				-1px -1px #ed5d27, 
+				3px 3px 6px rgba(0,0,0,.5);
+  font-size: 1.1em;
 }
 h1 {
   font-size: 1.1em;
 }
 span {
-  font-size: 112px;
+  font-size: 90px;
   font-family: 'Roboto Mono', monospace;
   color: rgb(237, 93, 39);
   text-shadow: -1px 1px #d1cdcd,
                -3px 4px #363333;
+  width: 350px;
 }
 
 div.container {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
+  width: fit-content;
+  padding: 0;
 }
 div.text_img {
   padding: 10px;
@@ -69,36 +136,37 @@ input[type="submit"]:hover {
               inset 0 0 0 1px #f2f2f2;
 }
 .button {
-    background-color: #fce374;
-    background-image: linear-gradient(to bottom, #fce374, #fcdf5b);
-    border: 1px solid #c9ae34;
+    background-color: #ffe5b3;
+    background-image: linear-gradient(to bottom, #ffe5b3, #fee6b9);
+    border: 1px solid #ffc989;
     box-shadow: inset 0 1px 0 #fff6ce,
-                inset 0 -1px 0 #e3c852,
-                inset 0 0 0 1px #fce88d,
+                inset -1px -1px 0 #d9d6c8,
+                inset 0 0 0 1px #e8d37c,
                 0 2px 4px rgba(0, 0, 0, 0.2);
-    color: #967d09;
+    color: #8b760b;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     line-height: 32px;
     padding: 0 15px;
     font-size: 0.8em;
 }
 
-input[type="image"] {
-  border-radius: 50%;
-  background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa);
-  box-shadow: 3px 6px 20px rgba(0,0,0,0.3), -3px -6px 20px rgba(255,255,255,0.5);
-/*  position: relative;
-  display: inline-block;*/
-}
 
-input[type="image"]:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
 
 #humanchoise, #enemychoise {
   border-radius: 50%;
   border: 1px solid #aaaaaa;
   background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa);
-  box-shadow: 3px 6px 20px rgba(0,0,0,0.3), -3px -6px 20px rgba(255,255,255,0.5);
+  box-shadow: 	3px 6px 20px rgba(0,0,0,0.3), 
+				-3px -6px 20px rgba(255,255,255,0.5);
   height: 100%;
+}
+
+#game-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #fff;
+  text-align: center;	
 }
