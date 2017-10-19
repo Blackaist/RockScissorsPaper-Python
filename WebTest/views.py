@@ -116,7 +116,10 @@ def imgChangeAIChoice(player_ui, str):
 
 
 def compareTwoChoosesAndSaveInGlobalStat(player_ui):
-    global_stat = GlobalStatistic.objects.get(id='globals')
+    try:
+        global_stat = GlobalStatistic.objects.get(id='globals')
+    except GlobalStatistic.DoesNotExist:
+        global_stat = GlobalStatistic(id='globals')
 
     # score update
     if player_ui.human_choice == player_ui.ai_choice:
