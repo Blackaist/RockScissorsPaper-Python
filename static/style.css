@@ -124,7 +124,14 @@ div.container {
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
   width: fit-content;
+  width: -moz-min-content;
+  width: -webkit-min-content;
   padding: 0;
+}
+#fuckIE
+{
+    display: -ms-grid;
+    -ms-grid-columns: min-content;
 }
 div.text_img {
   padding: 10px;

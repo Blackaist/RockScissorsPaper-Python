@@ -14,11 +14,12 @@
 	</head>
 	<body>
 		<div id="header">
-			<div class="container">
-				<img class="photo" src="{% static 'Anon_225.png' %}" alt="Gamer's photo">
-				<div class="text_img">Вы</div>
+			<div id="fuckIE">
+				<div class="container">
+					<img class="photo" src="{% static 'Anon_225.png' %}" alt="Gamer's photo">
+					<div class="text_img">Вы</div>
+				</div>
 			</div>
-			
 			<div id="choosing-circle">
 					<form action="/" method="post">
 						{% csrf_token %}
@@ -28,10 +29,11 @@
 						<div id="circle"></div> 
 					</form>
 			</div>
-			
-			<div class="container">
-				<img class="photo" src="{% static 'Nika_225.png' %}" alt="AI's photo">
-				<div class="text_img">Ника (ИИ)</div>
+			<div id="fuckIE">
+				<div class="container">
+					<img class="photo" src="{% static 'Nika_225.png' %}" alt="AI's photo">
+					<div class="text_img">Ника (ИИ)</div>
+				</div>
 			</div>
 		</div>
 
@@ -61,7 +63,7 @@
 		<p id="res_txt"> {{ result_text }}</p>
 		
 		<div class='col-md-6' url-endpoint='{% url "api-data" %}'>
-			<canvas id="myChart" style="margin-left: 50%; display: block; width: 800px; height: 380px;" width="800" height="380" class="chartjs-render-monitor"></canvas>
+			<canvas id="myChart" style="margin-left: 50%; display: block; width: 800px; height: 300px;" width="800" height="300" class="chartjs-render-monitor"></canvas>
 		</div>
 		<div id="game-footer">
 			<p>

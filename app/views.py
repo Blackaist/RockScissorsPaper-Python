@@ -59,7 +59,7 @@ class ChartData(APIView):
                 playersCount = cursor.fetchone()[0]
                 if summary is not None and playersCount is not None:
                     summary = 1.0 * summary / playersCount
-                    global_bubble_story += [{'x': (i - 1) * 10, 'y': summary, 'r': playersCount}]
+                    global_bubble_story += [{'x': (i - 1) * 10, 'y':  round(summary, 2), 'r': playersCount}]
 
         # locals
         wins = player_ui.wins

@@ -28,7 +28,7 @@
 
 ## Other ##
 ### Tools ###
-python + django
+python
 
 html + css + js
 
