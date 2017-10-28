@@ -125,7 +125,6 @@ div.container {
   text-align: center;
   width: fit-content;
   width: -moz-min-content;
-  width: -webkit-min-content;
   padding: 0;
 }
 #fuckIE

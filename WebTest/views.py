@@ -1,5 +1,7 @@
 import random
 import json
+
+from django.db import connection
 from django.http import HttpResponse
 from django.http import JsonResponse
 
@@ -53,8 +55,14 @@ class ChartData(APIView):
         return Response(data)
 
 
-def print_debug(player_ui):
-    print(player_ui.id)
+def print_debug(player_ui, session_key):
+    # print(player_ui.id)
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, human_story_choices FROM app_playerui GROUP BY id")
+        file = open('data.txt', 'w')
+        for outStr in cursor.fetchall():
+            file.write(outStr[0] + '\t' + outStr[1] + '\n')
+
     # print(player_ui.human_story_choices)
     # print(player_ui.ai_story_choices)
     # print(player_ui.draws + player_ui.loses + player_ui.wins)
@@ -71,7 +79,7 @@ def post_list(request):
         player_ui = PlayerUI(id=request.session.session_key)
 
     if DEBUG:
-        print_debug(player_ui)
+        print_debug(player_ui, request.session.session_key)
 
     if 'btnPaper.x' in request.POST or 'btnScissors.x' in request.POST or 'btnRock.x' in request.POST:
         button_click(player_ui, request)
