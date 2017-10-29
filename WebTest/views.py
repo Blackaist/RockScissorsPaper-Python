@@ -105,7 +105,6 @@ def button_click(player_ui, request):
 
     compareTwoChoosesAndSaveInGlobalStat(player_ui)
 
-	
     updateScore(player_ui)
 
     player_ui.save()
