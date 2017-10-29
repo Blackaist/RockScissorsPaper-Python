@@ -58,10 +58,10 @@ class ChartData(APIView):
 def print_debug(player_ui, session_key):
     # print(player_ui.id)
     with connection.cursor() as cursor:
-        cursor.execute("SELECT id, human_story_choices FROM app_playerui GROUP BY id")
+        cursor.execute("SELECT id, human_story_choices, ai_story_choices FROM app_playerui GROUP BY id")
         file = open('data.txt', 'w')
         for outStr in cursor.fetchall():
-            file.write(outStr[0] + '\t' + outStr[1] + '\n')
+            file.write(outStr[0] + '\t' + outStr[1] + '\t' + outStr[2] + '\n')
 
     # print(player_ui.human_story_choices)
     # print(player_ui.ai_story_choices)
